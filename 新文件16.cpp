@@ -18,7 +18,7 @@ int cur_r = 0, cur_c = 0;
 
 void check_horizontal()
 {
-    /* TODO: ÀË¬d¤ô¥­¦æ¬O§_¦³½Ä¬ğªº¼Æ¦r¡A©ÎªÌ¤w¸g¶ñº¡¡C */
+    /* TODO: æª¢æŸ¥æ°´å¹³è¡Œæ˜¯å¦æœ‰è¡çªçš„æ•¸å­—ï¼Œæˆ–è€…å·²ç¶“å¡«æ»¿ã€‚ */
     for (int c = 0; c < 4; ++c) {
         if (board[cur_r][c] == board[cur_r][cur_c] && c != cur_c && board[cur_r][cur_c] != 0) {
             cout << "Horizontal conflict at row" << cur_r << endl;
@@ -29,7 +29,7 @@ void check_horizontal()
 
 void check_vertical()
 {
-    /* TODO: ÀË¬d««ª½¦C¬O§_¦³½Ä¬ğªº¼Æ¦r¡A©ÎªÌ¤w¸g¶ñº¡¡C */
+    /* TODO: æª¢æŸ¥å‚ç›´åˆ—æ˜¯å¦æœ‰è¡çªçš„æ•¸å­—ï¼Œæˆ–è€…å·²ç¶“å¡«æ»¿ã€‚ */
     for (int r = 0; r < 4; ++r) {
         if (board[r][cur_c] == board[cur_r][cur_c] && r != cur_r && board[cur_r][cur_c] != 0) {
             cout << "Vertical conflict at column  " << cur_c << endl;
@@ -40,9 +40,9 @@ void check_vertical()
 
 void check_block()
 {
-    /* TODO: ÀË¬d°Ï¶ô¡]2x2¡^¤º¬O§_¦³½Ä¬ğªº¼Æ¦r¡A©ÎªÌ¤w¸g¶ñº¡¡C */
-    int block_r = cur_r / 2 * 2;  // ±N¦æ¼Æ¬M®g¨ì°Ï¶ô
-    int block_c = cur_c / 2 * 2;  // ±N¦C¼Æ¬M®g¨ì°Ï¶ô
+    /* TODO: æª¢æŸ¥å€å¡Šï¼ˆ2x2ï¼‰å…§æ˜¯å¦æœ‰è¡çªçš„æ•¸å­—ï¼Œæˆ–è€…å·²ç¶“å¡«æ»¿ã€‚ */
+    int block_r = cur_r / 2 * 2;  // å°‡è¡Œæ•¸æ˜ å°„åˆ°å€å¡Š
+    int block_c = cur_c / 2 * 2;  // å°‡åˆ—æ•¸æ˜ å°„åˆ°å€å¡Š
 
     for (int r = block_r; r < block_r + 2; ++r) {
         for (int c = block_c; c < block_c + 2; ++c) {
@@ -56,7 +56,7 @@ void check_block()
 
 void fill_number(int num)
 {
-    /* TODO: ¦b·í«e´å¼Ğ©Ò¦bªº®æ¤l¶ñ¤J¼Æ¦r¡A¨ÃÀË¬d¤ô¥­¦æ¡B««ª½¦C©M°Ï¶ô¬O§_¦³½Ä¬ğ¡C */
+    /* TODO: åœ¨ç•¶å‰æ¸¸æ¨™æ‰€åœ¨çš„æ ¼å­å¡«å…¥æ•¸å­—ï¼Œä¸¦æª¢æŸ¥æ°´å¹³è¡Œã€å‚ç›´åˆ—å’Œå€å¡Šæ˜¯å¦æœ‰è¡çªã€‚ */
     
     if (num < 0 || num > 4) {
         cout << "Invalid number! Please enter a number between 1 and 4." << endl;
@@ -65,7 +65,7 @@ void fill_number(int num)
     else if (num == 0) {
         board[cur_r][cur_c] = 0;
     } else {
-        // §_«h¶ñ¤J¸Ó¼Æ¦r
+        // å¦å‰‡å¡«å…¥è©²æ•¸å­—
         board[cur_r][cur_c] = num;
     }
 
@@ -76,38 +76,71 @@ void fill_number(int num)
 
 void move_cursor(char direction)
 {
-    /* ®Ú¾Ú¿é¤Jªº¤è¦V²¾°Ê´å¼Ğ¡A¨ÃÀË¬d¬O§_¶V¬É©Î¬O¸Ó¦ì¸m¤£¥i½s¿è */
-    int start_r = cur_r;
+    /* æ ¹æ“šè¼¸å…¥çš„æ–¹å‘ç§»å‹•æ¸¸æ¨™ï¼Œä¸¦æª¢æŸ¥æ˜¯å¦è¶Šç•Œæˆ–æ˜¯è©²ä½ç½®ä¸å¯ç·¨è¼¯ */
+   int start_r = cur_r;
     int start_c = cur_c;
 
-    if (direction == 'W' || direction == 'w') {
-        // ±q·í«e¦æ¶}©l¦V¤W¬d§ä¥i½s¿èªº®æ¤l
-        do {
-            if (cur_r > 0) cur_r--;
-        } while (cur_r > 0 && !editable[cur_r][cur_c]);
-    } 
-    else if (direction == 'S' || direction == 's') {
-        // ±q·í«e¦æ¶}©l¦V¤U¬d§ä¥i½s¿èªº®æ¤l
-        do {
-            if (cur_r < 3) cur_r++;
-        } while (cur_r < 3 && !editable[cur_r][cur_c]);
-    } 
-    else if (direction == 'A' || direction == 'a') {
-        // ±q·í«e¦C¶}©l¦V¥ª¬d§ä¥i½s¿èªº®æ¤l
-        do {
-            if (cur_c > 0) cur_c--;
-        } while (cur_c > 0 && !editable[cur_r][cur_c]);
-    } 
-    else if (direction == 'D' || direction == 'd') {
-        // ±q·í«e¦C¶}©l¦V¥k¬d§ä¥i½s¿èªº®æ¤l
-        do {
-            if (cur_c < 3) cur_c++;
-        } while (cur_c < 3 && !editable[cur_r][cur_c]);
+    // æ ¹æ“šè¼¸å…¥çš„æ–¹å‘ç§»å‹•æ¸¸æ¨™
+    switch (direction) {
+        case 'W':
+        case 'w':
+            // å‘ä¸Šç§»å‹•ï¼Œæ‰¾åˆ°ç¬¬ä¸€å€‹å¯ç·¨è¼¯çš„æ ¼å­
+            while (cur_r > 0) {
+                cur_r--;
+                if (editable[cur_r][cur_c]) break;
+            }
+            // å¦‚æœåœ¨ç¬¬ä¸€è¡Œä»ç„¡æ³•ç§»å‹•ï¼Œåœåœ¨ç•¶å‰è¡Œ
+            if (cur_r == 0 && !editable[cur_r][cur_c]) {
+                cur_r = start_r;
+            }
+            break;
+
+        case 'S':
+        case 's':
+            // å‘ä¸‹ç§»å‹•ï¼Œæ‰¾åˆ°ç¬¬ä¸€å€‹å¯ç·¨è¼¯çš„æ ¼å­
+            while (cur_r < 3) {
+                cur_r++;
+                if (editable[cur_r][cur_c]) break;
+            }
+            // å¦‚æœåœ¨æœ€å¾Œä¸€è¡Œä»ç„¡æ³•ç§»å‹•ï¼Œåœåœ¨ç•¶å‰è¡Œ
+            if (cur_r == 3 && !editable[cur_r][cur_c]) {
+                cur_r = start_r;
+            }
+            break;
+
+        case 'A':
+        case 'a':
+            // å‘å·¦ç§»å‹•ï¼Œæ‰¾åˆ°ç¬¬ä¸€å€‹å¯ç·¨è¼¯çš„æ ¼å­
+            while (cur_c > 0) {
+                cur_c--;
+                if (editable[cur_r][cur_c]) break;
+            }
+            // å¦‚æœåœ¨ç¬¬ä¸€åˆ—ä»ç„¡æ³•ç§»å‹•ï¼Œåœåœ¨ç•¶å‰åˆ—
+            if (cur_c == 0 && !editable[cur_r][cur_c]) {
+                cur_c = start_c;
+            }
+            break;
+
+        case 'D':
+        case 'd':
+            // å‘å³ç§»å‹•ï¼Œæ‰¾åˆ°ç¬¬ä¸€å€‹å¯ç·¨è¼¯çš„æ ¼å­
+            while (cur_c < 3) {
+                cur_c++;
+                if (editable[cur_r][cur_c]) break;
+            }
+            // å¦‚æœåœ¨æœ€å¾Œä¸€åˆ—ä»ç„¡æ³•ç§»å‹•ï¼Œåœåœ¨ç•¶å‰åˆ—
+            if (cur_c == 3 && !editable[cur_r][cur_c]) {
+                cur_c = start_c;
+            }
+            break;
+
+        default:
+            // è‹¥è¼¸å…¥ç„¡æ•ˆï¼Œä¸é€²è¡Œä»»ä½•æ“ä½œ
+            return;
     }
 
-    // ¦pªG²¾°Ê«á¡A´å¼Ğ¦ì¸m¥¼§ïÅÜ¡Aªí¥Ü¥¼¯à§ä¨ì·sªº¥i½s¿è®æ¤l¡A«h«ì´_¨ì­ì¨Óªº¦ì¸m
+    // å¦‚æœæ¸¸æ¨™ä½ç½®æœªæ”¹è®Šï¼Œæ¢å¾©åˆ°åŸä¾†çš„ä½ç½®
     if (start_r == cur_r && start_c == cur_c) {
-        // ­YµLªk²¾°Ê¨ì·sªº¥i½s¿è®æ¤l¡A«hªğ¦^­ì¦ì¸m
         cur_r = start_r;
         cur_c = start_c;
     }
@@ -115,7 +148,7 @@ void move_cursor(char direction)
 
 bool is_invalid(int i, int j)
 {
-    /* TODO: ÀË¬d board[i][j] ¬O§_»P¨ä©Ò¦b¦æ¡B¦C©Î°Ï¶ô¤¤ªº¨ä¥L¼Æ¦r½Ä¬ğ¡C */
+    /* TODO: æª¢æŸ¥ board[i][j] æ˜¯å¦èˆ‡å…¶æ‰€åœ¨è¡Œã€åˆ—æˆ–å€å¡Šä¸­çš„å…¶ä»–æ•¸å­—è¡çªã€‚ */
     for (int c = 0; c < 4; ++c) {
         if (board[i][c] == board[i][j] && c != j && board[i][j] != 0)
             return true;
@@ -137,7 +170,7 @@ bool is_invalid(int i, int j)
 
 bool check_win()
 {
-    /* TODO: ÀË¬d¹CÀ¸¬O§_§¹¦¨¡A§Y¨C­Ó®æ¤l³£¤w¥¿½T¶ñº¡¡C */
+    /* TODO: æª¢æŸ¥éŠæˆ²æ˜¯å¦å®Œæˆï¼Œå³æ¯å€‹æ ¼å­éƒ½å·²æ­£ç¢ºå¡«æ»¿ã€‚ */
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {
             if (board[i][j] == 0 || is_invalid(i, j))
@@ -180,13 +213,13 @@ string get_styled_text(string text, string style)
 bool  is_block_correct(int row, int col)
 {
     set<int> unique_numbers;
-    int start_row = (row / 2) * 2;  // §ä¨ì°Ï¶ôªº°_©l¦æ
-    int start_col = (col / 2) * 2;  // §ä¨ì°Ï¶ôªº°_©l¦C
+    int start_row = (row / 2) * 2;  // æ‰¾åˆ°å€å¡Šçš„èµ·å§‹è¡Œ
+    int start_col = (col / 2) * 2;  // æ‰¾åˆ°å€å¡Šçš„èµ·å§‹åˆ—
 
     for (int r = start_row; r < start_row + 2; ++r) {
         for (int c = start_col; c < start_col + 2; ++c) {
-            if (board[r][c] < 1 || board[r][c] > 4) return false;  // ÀË¬d¼Æ¦r¬O§_¦b 1 ¨ì 4 ½d³ò¤º
-            if (unique_numbers.find(board[r][c]) != unique_numbers.end()) // ¦pªG¸Ó¼Æ¦r¤w¸g¥X²{¹L¡A«h­«½Æ
+            if (board[r][c] < 1 || board[r][c] > 4) return false;  // æª¢æŸ¥æ•¸å­—æ˜¯å¦åœ¨ 1 åˆ° 4 ç¯„åœå…§
+            if (unique_numbers.find(board[r][c]) != unique_numbers.end()) // å¦‚æœè©²æ•¸å­—å·²ç¶“å‡ºç¾éï¼Œå‰‡é‡è¤‡
             return false;
             unique_numbers.insert(board[r][c]);
         }
@@ -197,82 +230,82 @@ bool  is_block_correct(int row, int col)
 bool is_row_correct(int row) {
     set<int> seen;
     for (int col = 0; col < 4; ++col) {
-        if (board[row][col] == 0) // ¦pªG¸Ó¦ì¸m¬° 0¡Aªí¥Ü©|¥¼¶ñ¼g
+        if (board[row][col] == 0) // å¦‚æœè©²ä½ç½®ç‚º 0ï¼Œè¡¨ç¤ºå°šæœªå¡«å¯«
             return false;
-        if (seen.find(board[row][col]) != seen.end()) // ¦pªG¸Ó¼Æ¦r¤w¸g¥X²{¹L¡A«h­«½Æ
+        if (seen.find(board[row][col]) != seen.end()) // å¦‚æœè©²æ•¸å­—å·²ç¶“å‡ºç¾éï¼Œå‰‡é‡è¤‡
             return false;
         seen.insert(board[row][col]);
     }
-    return true; // ¦pªG©Ò¦³¼Æ¦r³£¤£­«½Æ¨Ã¥B¶ñº¡¡Aªğ¦^ true
+    return true; // å¦‚æœæ‰€æœ‰æ•¸å­—éƒ½ä¸é‡è¤‡ä¸¦ä¸”å¡«æ»¿ï¼Œè¿”å› true
 }
 
 bool is_column_correct(int col) {
-    set<int> seen;  // ¥Î¨Ó°O¿ı¸Ó¦C¤¤¤w¸g¥X²{¹Lªº¼Æ¦r
+    set<int> seen;  // ç”¨ä¾†è¨˜éŒ„è©²åˆ—ä¸­å·²ç¶“å‡ºç¾éçš„æ•¸å­—
     for (int row = 0; row < 4; ++row) {
-        if (board[row][col] == 0) // ¦pªG¸Ó¦ì¸m¬° 0¡Aªí¥Ü©|¥¼¶ñ¼g
-            return false;  // ¦C¤¤¦³ªÅ®æ¡Aªğ¦^¿ù»~
-        if (seen.find(board[row][col]) != seen.end()) // ¦pªG¸Ó¼Æ¦r¤w¸g¥X²{¹L¡A«h­«½Æ
-            return false;  // ¦³­«½Æ¼Æ¦r¡Aªğ¦^¿ù»~
-        seen.insert(board[row][col]); // °O¿ı·í«e¼Æ¦r
+        if (board[row][col] == 0) // å¦‚æœè©²ä½ç½®ç‚º 0ï¼Œè¡¨ç¤ºå°šæœªå¡«å¯«
+            return false;  // åˆ—ä¸­æœ‰ç©ºæ ¼ï¼Œè¿”å›éŒ¯èª¤
+        if (seen.find(board[row][col]) != seen.end()) // å¦‚æœè©²æ•¸å­—å·²ç¶“å‡ºç¾éï¼Œå‰‡é‡è¤‡
+            return false;  // æœ‰é‡è¤‡æ•¸å­—ï¼Œè¿”å›éŒ¯èª¤
+        seen.insert(board[row][col]); // è¨˜éŒ„ç•¶å‰æ•¸å­—
     }
-    return true; // ¦pªG©Ò¦³¼Æ¦r³£¤£­«½Æ¨Ã¥B¶ñº¡¡Aªğ¦^ true
+    return true; // å¦‚æœæ‰€æœ‰æ•¸å­—éƒ½ä¸é‡è¤‡ä¸¦ä¸”å¡«æ»¿ï¼Œè¿”å› true
 }
 void print_board()
 {
-    // ²M«Ì
+    // æ¸…å±
     cout << "\x1b[2J\x1b[1;1H";
 
-    // ¨Ï¥Î´£¥Ü
+    // ä½¿ç”¨æç¤º
     cout << get_styled_text("W/A/S/D: ", "B") << "move cursor" << endl;
     cout << get_styled_text("    1-4: ", "B") << "fill in number" << endl;
     cout << get_styled_text("      0: ", "B") << "clear the cell" << endl;
     cout << get_styled_text("      Q: ", "B") << "quit" << endl;
     cout << endl;
-    // ¹M¾ú¨C­Ó®æ¤l¨Ã¥´¦L
+    // éæ­·æ¯å€‹æ ¼å­ä¸¦æ‰“å°
     for (int i = 0; i < 4; ++i)
     {
-        // ¥´¦L¤ô¥­¤À¹j½u
+        // æ‰“å°æ°´å¹³åˆ†éš”ç·š
         if (i && i % 2 == 0)
             cout << "---------------" << endl;
 
-        // ¨C¦æ¶}©l¥´¦L
+        // æ¯è¡Œé–‹å§‹æ‰“å°
         cout << "|";
         for (int j = 0; j < 4; ++j)
         {
-            // ½T©w·í«e®æ¤lªº¼Ë¦¡
+            // ç¢ºå®šç•¶å‰æ ¼å­çš„æ¨£å¼
             string style = "";
 
-            // ¦pªG·í«e®æ¤l¬O´å¼Ğ¦ì¸m¡AÀu¥ıÅã¥Ü´å¼Ğ¼Ë¦¡
+            // å¦‚æœç•¶å‰æ ¼å­æ˜¯æ¸¸æ¨™ä½ç½®ï¼Œå„ªå…ˆé¡¯ç¤ºæ¸¸æ¨™æ¨£å¼
             if (cur_r == i && cur_c == j) {
-                style = "C"; // ´å¼ĞÂÅ¦â­I´º
+                style = "C"; // æ¸¸æ¨™è—è‰²èƒŒæ™¯
             }
-            // ¦pªG·í«e®æ¤lµL®Ä¡]¦³½Ä¬ğ¡^¡AÅã¥Ü¬°¬õ¦â
+            // å¦‚æœç•¶å‰æ ¼å­ç„¡æ•ˆï¼ˆæœ‰è¡çªï¼‰ï¼Œé¡¯ç¤ºç‚ºç´…è‰²
             else if (is_invalid(i, j)) {
-                style = "E"; // ¬õ¦âªí¥Ü¿ù»~
+                style = "E"; // ç´…è‰²è¡¨ç¤ºéŒ¯èª¤
             }
-            // ¦pªG¸Ó¦æ¥¿½T¡A¥B®æ¤lµL½Ä¬ğ¡AÅã¥Üºñ¦â
+            // å¦‚æœè©²è¡Œæ­£ç¢ºï¼Œä¸”æ ¼å­ç„¡è¡çªï¼Œé¡¯ç¤ºç¶ è‰²
             else if (is_row_correct(i)) {
-                style = "G"; // ¦æ¥¿½TÅã¥Üºñ¦â
+                style = "G"; // è¡Œæ­£ç¢ºé¡¯ç¤ºç¶ è‰²
             }
-            // ¦pªG¸Ó¦C¥¿½T¡A¥B®æ¤lµL½Ä¬ğ¡AÅã¥Üºñ¦â
+            // å¦‚æœè©²åˆ—æ­£ç¢ºï¼Œä¸”æ ¼å­ç„¡è¡çªï¼Œé¡¯ç¤ºç¶ è‰²
             else if (is_column_correct(j)) {
-                style = "G"; // ¦C¥¿½TÅã¥Üºñ¦â
+                style = "G"; // åˆ—æ­£ç¢ºé¡¯ç¤ºç¶ è‰²
             }
              else if (is_block_correct(i, j)) {
-                style = "G"; // ¦C¥¿½TÅã¥Üºñ¦â
+                style = "G"; // åˆ—æ­£ç¢ºé¡¯ç¤ºç¶ è‰²
             }
-            // ¦pªG®æ¤l¬Oªì©l­È
+            // å¦‚æœæ ¼å­æ˜¯åˆå§‹å€¼
             if (!editable[i][j]) {
-                style += "B"; // ²ÊÅé
+                style += "B"; // ç²—é«”
             }
 
-            // ¥´¦L¼Æ¦r©ÎªÅ®æ
+            // æ‰“å°æ•¸å­—æˆ–ç©ºæ ¼
             if (board[i][j] == 0)
-                cout << get_styled_text(" ¡P ", style);
+                cout << get_styled_text(" Â· ", style);
             else
                 cout << get_styled_text(" " + to_string(board[i][j]) + " ", style);
 
-            // ¥´¦L¦C¤À¹j²Å
+            // æ‰“å°åˆ—åˆ†éš”ç¬¦
             if ((j + 1) % 2 == 0)
                 cout << "|";
             style = ""; 
@@ -283,18 +316,18 @@ void print_board()
 
 void initialize()
 {
-    // ³]¸m Windows ¤Wªº¼Ë¦¡¤å¥»¡C
+    // è¨­ç½® Windows ä¸Šçš„æ¨£å¼æ–‡æœ¬ã€‚
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD dwMode = 0;
     GetConsoleMode(hOut, &dwMode);
     SetConsoleMode(hOut, dwMode);
 
-    // ¼Ğ°O¥i½s¿èªº®æ¤l
+    // æ¨™è¨˜å¯ç·¨è¼¯çš„æ ¼å­
     for (int i = 0; i < 4; ++i)
         for (int j = 0; j < 4; ++j)
             editable[i][j] = !board[i][j];
 
-    // Åã¥Üªì©l´Ñ½L
+    // é¡¯ç¤ºåˆå§‹æ£‹ç›¤
     print_board();
 }
 
@@ -327,12 +360,12 @@ int main()
 
         if (check_win())
         {
-            cout << "YOU BEAUTIFUL CLEVER GIRL WIN" << endl;
+            cout << "YOU  WIN!" << endl;
             break;
         }
 
         if (!action_ok)
-            cout << get_styled_text("!!! µL®Äªº¾Ş§@ !!!", "R");
+            cout << get_styled_text("!!! ç„¡æ•ˆçš„æ“ä½œ !!!", "R");
     }
 
     return 0;
